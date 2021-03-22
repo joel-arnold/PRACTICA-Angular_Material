@@ -10,6 +10,7 @@ import { ListEmpleadoComponent } from './components/list-empleado/list-empleado.
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MensajeConfirmacionComponent } from './components/shared/mensaje-confirmacion/mensaje-confirmacion.component';
 import { AngularMaterialModule } from './components/shared/angular-material/angular-material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AngularMaterialModule } from './components/shared/angular-material/angu
     ListEmpleadoComponent,
     NavbarComponent,
     MensajeConfirmacionComponent,
+    ReactiveFormsModule,
   ],
   imports: [
     BrowserModule,

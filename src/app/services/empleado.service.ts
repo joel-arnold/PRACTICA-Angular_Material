@@ -5,7 +5,7 @@ import { Empleado } from '../models/empleado';
   providedIn: 'root',
 })
 export class EmpleadoService {
-  listaEmpleado: Empleado[] = [
+  listaDeEmpleados: Empleado[] = [
     {
       nombreCompleto: 'Joel Arnold',
       correo: 'joelarnold@hotmail.com.ar',
@@ -35,6 +35,10 @@ export class EmpleadoService {
   constructor() {}
 
   getEmpleados() {
-    return this.listaEmpleado.slice();
+    return this.listaDeEmpleados.slice();
+  }
+
+  eliminarEmpleado(indice: number) {
+    this.listaDeEmpleados.splice(indice, 1);
   }
 }
