@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { EmpleadoService } from '../../services/empleado.service';
+import { Empleado } from '../../models/empleado';
 
 export interface PeriodicElement {
   name: string;
@@ -26,10 +30,23 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './list-empleado.component.html',
   styleUrls: ['./list-empleado.component.css'],
 })
-export class ListEmpleadoComponent implements OnInit {
-  constructor() {}
+export class ListEmpleadoComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  listaDeEmpleados: Empleado[];
 
-  ngOnInit(): void {}
+  constructor(private servicioEmpleado: EmpleadoService) {}
+
+  ngOnInit() {
+    this.cargarEmpleados();
+    console.log(this.listaDeEmpleados);
+  }
+
+  ngAfterViewInit() {
+    this.dataSource = this.dataSource;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
@@ -37,5 +54,9 @@ export class ListEmpleadoComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  cargarEmpleados() {
+    this.listaDeEmpleados = this.servicioEmpleado.getEmpleados();
   }
 }

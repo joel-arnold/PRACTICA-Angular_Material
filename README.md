@@ -1,6 +1,6 @@
 # Probando Angular Material
 
-Trabajo un CRUD completo usando el Angular Material.
+Trabajo un CRUD completo usando Angular Material.
 
 ## Para usar
 
@@ -12,4 +12,4 @@ Hacer un `ng serve -o`.
 
 ## Fecha del proyecto
 
-`Marzo 2021`
+Marzo 2021
