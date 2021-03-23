@@ -1,4 +1,9 @@
 span {
     margin: auto;
     text-align: center;
+    cursor: pointer;
+}
+
+span:focus {
+    outline: none;
 }

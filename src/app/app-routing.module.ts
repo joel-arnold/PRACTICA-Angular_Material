@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ListEmpleadoComponent } from './components/list-empleado/list-empleado.component';
+import { Routes, RouterModule } from '@angular/router';
 import { AddEditEmpleadoComponent } from './components/add-edit-empleado/add-edit-empleado.component';
+import { ListEmpleadoComponent } from './components/list-empleado/list-empleado.component';
 
-const ROUTES: Routes = [
+const routes: Routes = [
   { path: '', component: ListEmpleadoComponent },
   { path: 'add', component: AddEditEmpleadoComponent },
   { path: 'edit/:id', component: AddEditEmpleadoComponent },
@@ -11,7 +11,7 @@ const ROUTES: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(ROUTES)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

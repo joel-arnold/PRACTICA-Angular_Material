@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { EmpleadoService } from '../../services/empleado.service';
-import { Empleado } from '../../models/empleado';
+import { EmpleadoService } from 'src/app/services/empleado.service';
+import { Empleado } from 'src/app/models/empleado';
 import { MatDialog } from '@angular/material/dialog';
 import { MensajeConfirmacionComponent } from '../shared/mensaje-confirmacion/mensaje-confirmacion.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,35 +13,30 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './list-empleado.component.html',
   styleUrls: ['./list-empleado.component.css'],
 })
-export class ListEmpleadoComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  listaDeEmpleados: Empleado[];
-  dataSource = new MatTableDataSource();
-
-  constructor(
-    private servicioEmpleado: EmpleadoService,
-    public dialog: MatDialog,
-    public confirmacion: MatSnackBar
-  ) {}
-
-  ngOnInit() {
-    this.cargarEmpleados();
-  }
-
-  ngAfterViewInit() {
-    this.dataSource = this.dataSource;
-  }
-
+export class ListEmpleadoComponent implements OnInit {
   displayedColumns: string[] = [
     'nombreCompleto',
-    'telefono',
     'correo',
-    'fechaIngreso',
     'estadoCivil',
+    'fechaIngreso',
     'sexo',
+    'telefono',
     'acciones',
   ];
+  dataSource = new MatTableDataSource();
+  listEmpleado: Empleado[];
+
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  constructor(
+    private empleadoService: EmpleadoService,
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar
+  ) {}
+
+  ngOnInit(): void {
+    this.cargarEmpleados();
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -49,24 +44,23 @@ export class ListEmpleadoComponent implements OnInit, AfterViewInit {
   }
 
   cargarEmpleados() {
-    this.listaDeEmpleados = this.servicioEmpleado.getEmpleados();
-    this.dataSource = new MatTableDataSource(this.listaDeEmpleados);
+    this.listEmpleado = this.empleadoService.getEmpleados();
+    this.dataSource = new MatTableDataSource(this.listEmpleado);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  eliminarEmpleado(indice: number) {
+  eliminarEmpleado(index: number) {
     const dialogRef = this.dialog.open(MensajeConfirmacionComponent, {
       width: '350px',
-      data: { mensaje: '¿Está seguro que desea eliminar la persona?' },
+      data: { mensaje: 'Esta seguro que desea eliminar el Empleado?' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'aceptar') {
-        this.servicioEmpleado.eliminarEmpleado(indice);
+        this.empleadoService.eliminarEmpleado(index);
         this.cargarEmpleados();
-
-        this.confirmacion.open('El empleado fue eliminado con éxito.', '', {
+        this.snackBar.open('El empleado fue eliminado con exito!', '', {
           duration: 3000,
         });
       }
